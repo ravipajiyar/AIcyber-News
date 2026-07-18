@@ -58,6 +58,7 @@ const ContactUs = () => {
 
   return (
     <motion.section
+      id="contact"
       ref={ref}
       variants={containerVariants}
       initial="hidden"

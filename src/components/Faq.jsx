@@ -194,6 +194,7 @@ const Faq = () => {
 
   return (
     <motion.section
+      id="faq"
       ref={ref}
       variants={containerVariants}
       initial="hidden"

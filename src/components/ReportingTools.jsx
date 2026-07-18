@@ -148,6 +148,7 @@ const ReportingTools = () => {
 
   return (
     <motion.section
+      id="report-incident"
       ref={ref}
       variants={containerVariants}
       initial="hidden"

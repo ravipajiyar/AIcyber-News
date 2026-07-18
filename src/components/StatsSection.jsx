@@ -337,6 +337,7 @@ const StatsSection = () => {
   return (
     <>
       <motion.section
+        id="stats"
         ref={ref}
         variants={containerVariants}
         initial="hidden"

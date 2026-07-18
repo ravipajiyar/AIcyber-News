@@ -95,6 +95,7 @@ const EnhancedAISolution = () => {
 
   return (
     <motion.section 
+      id="ai-solutions"
       ref={ref}
       variants={containerVariants}
       initial="hidden"

@@ -8,13 +8,11 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        {/* Define Routes */}
         <Routes>
-          <Route path="/" element={<Navigate to="home" />} />{" "}
-          {/* Default Route */}
-          <Route path="home" element={<Home />} />
-          <Route path="whoweare" element={<WhoWeAre />} />
-          {/* Portfolio Route */}
+          <Route path="/" element={<Navigate to="/home" replace />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/whoweare" element={<WhoWeAre />} />
+          <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
       </BrowserRouter>
     </div>

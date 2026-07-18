@@ -179,6 +179,7 @@ const CaseStudy = () => {
 
   return (
     <motion.section
+      id="case-studies"
       ref={ref}
       variants={containerVariants}
       initial="hidden"

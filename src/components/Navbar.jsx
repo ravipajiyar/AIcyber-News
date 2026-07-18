@@ -1,23 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+
+const navItems = [
+  { label: 'Home', href: '/home' },
+  { label: 'Cyber Laws', href: '#cyber-laws' },
+  { label: 'AI Solutions', href: '#ai-solutions' },
+  { label: 'Resources', href: '#resources' },
+  { label: 'Report Incident', href: '#report-incident' },
+  { label: 'Case Studies', href: '#case-studies' },
+  { label: 'Blog', href: '#blog' },
+  { label: 'FAQ', href: '#faq' },
+  { label: 'Contact', href: '#contact' },
+];
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
-      }
+      setScrolled(window.scrollY > 10);
     };
-
     document.addEventListener('scroll', handleScroll);
-    return () => {
-      document.removeEventListener('scroll', handleScroll);
-    };
-  }, [scrolled]);
+    return () => document.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (location.hash) {
+      const el = document.getElementById(location.hash.slice(1));
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  }, [location]);
+
+  const handleNavClick = (e, href) => {
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      const el = document.getElementById(href.slice(1));
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        window.history.pushState(null, '', href);
+      }
+      setMobileMenuOpen(false);
+    }
+  };
 
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${
@@ -25,7 +55,7 @@ const Navbar = () => {
     }`}>
       <div className="container mx-auto px-4 flex items-center justify-between">
         <Link 
-          to="/" 
+          to="/home" 
           className="text-2xl font-bold text-white flex items-center group"
         >
           <span className="mr-2 text-teal-400 transform group-hover:scale-110 transition-transform duration-300">
@@ -55,15 +85,26 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <ul className="hidden lg:flex space-x-1">
-          {['Home', 'Cyber Laws', 'AI Solutions', 'Resources', 'Report Incident', 'Case Studies', 'Blog', 'FAQ', 'Contact'].map((item, index) => (
+          {navItems.map((item, index) => (
             <li key={index}>
-              <Link 
-                to={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`}
-                className="px-3 py-2 text-white text-sm font-medium relative group"
-              >
-                <span>{item}</span>
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all duration-300 group-hover:w-full"></span>
-              </Link>
+              {item.href.startsWith('#') ? (
+                <a
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
+                  className="px-3 py-2 text-white text-sm font-medium relative group cursor-pointer"
+                >
+                  <span>{item.label}</span>
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+              ) : (
+                <Link 
+                  to={item.href}
+                  className="px-3 py-2 text-white text-sm font-medium relative group"
+                >
+                  <span>{item.label}</span>
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              )}
             </li>
           ))}
           <li>
@@ -77,15 +118,26 @@ const Navbar = () => {
       {/* Mobile Navigation */}
       <div className={`lg:hidden ${mobileMenuOpen ? 'block' : 'hidden'}`}>
         <div className="px-2 pt-2 pb-3 space-y-1 bg-gray-900 shadow-lg">
-          {['Home', 'Cyber Laws', 'AI Solutions', 'Resources', 'Report Incident', 'Case Studies', 'Blog', 'FAQ', 'Contact'].map((item, index) => (
-            <Link 
-              key={index}
-              to={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`}
-              className="block px-3 py-2 text-white text-base font-medium hover:bg-gray-800 rounded-md"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {item}
-            </Link>
+          {navItems.map((item, index) => (
+            item.href.startsWith('#') ? (
+              <a
+                key={index}
+                href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
+                className="block px-3 py-2 text-white text-base font-medium hover:bg-gray-800 rounded-md cursor-pointer"
+              >
+                {item.label}
+              </a>
+            ) : (
+              <Link 
+                key={index}
+                to={item.href}
+                className="block px-3 py-2 text-white text-base font-medium hover:bg-gray-800 rounded-md"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {item.label}
+              </Link>
+            )
           ))}
           <button className="w-full mt-3 px-3 py-2 bg-teal-500 text-white rounded-md text-base font-medium hover:bg-teal-400 focus:outline-none">
             Sign In

@@ -150,6 +150,7 @@ const Blog = () => {
 
   return (
     <motion.section
+      id="blog"
       ref={ref}
       variants={containerVariants}
       initial="hidden"

@@ -110,6 +110,7 @@ const LatestUpdates = () => {
 
   return (
     <motion.section 
+      id="latest-updates"
       ref={ref}
       variants={containerVariants}
       initial="hidden"

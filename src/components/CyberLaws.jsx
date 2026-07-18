@@ -95,6 +95,7 @@ const CyberLaws = () => {
 
   return (
     <motion.section 
+      id="cyber-laws"
       ref={ref}
       variants={containerVariants}
       initial="hidden"

@@ -92,6 +92,7 @@ const ResourceLibrary = () => {
 
   return (
     <motion.section
+      id="resources"
       ref={ref}
       variants={containerVariants}
       initial="hidden"
