@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Hero = () => {
-  const youtubeVideoId = "sDOWUrBlHEA";
+  const youtubeVideoId = "Hv-7nAaI2hI";
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [showIncidentModal, setShowIncidentModal] = useState(false);
   const [showLearnMoreModal, setShowLearnMoreModal] = useState(false);

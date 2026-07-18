@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 
 const navItems = [
-  { label: 'Home', href: '/home' },
+  { label: 'Home', href: '#top' },
   { label: 'Cyber Laws', href: '#cyber-laws' },
   { label: 'AI Solutions', href: '#ai-solutions' },
   { label: 'Resources', href: '#resources' },
@@ -16,7 +15,6 @@ const navItems = [
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,26 +24,20 @@ const Navbar = () => {
     return () => document.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    if (location.hash) {
-      const el = document.getElementById(location.hash.slice(1));
-      if (el) {
-        setTimeout(() => {
-          el.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      }
-    }
-  }, [location]);
-
   const handleNavClick = (e, href) => {
-    if (href.startsWith('#')) {
-      e.preventDefault();
-      const el = document.getElementById(href.slice(1));
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-        window.history.pushState(null, '', href);
-      }
-      setMobileMenuOpen(false);
+    e.preventDefault();
+    setMobileMenuOpen(false);
+
+    if (href === '#top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    const el = document.getElementById(href.slice(1));
+    if (el) {
+      const offset = 80;
+      const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
     }
   };
 
@@ -54,8 +46,9 @@ const Navbar = () => {
       scrolled ? 'bg-gray-900 shadow-lg py-2' : 'bg-transparent py-4'
     }`}>
       <div className="container mx-auto px-4 flex items-center justify-between">
-        <Link 
-          to="/home" 
+        <a
+          href="#top"
+          onClick={(e) => handleNavClick(e, '#top')}
           className="text-2xl font-bold text-white flex items-center group"
         >
           <span className="mr-2 text-teal-400 transform group-hover:scale-110 transition-transform duration-300">
@@ -67,7 +60,7 @@ const Navbar = () => {
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-teal-300">
             AI Cyber News
           </span>
-        </Link>
+        </a>
 
         {/* Mobile menu button */}
         <button 
@@ -87,39 +80,24 @@ const Navbar = () => {
         <ul className="hidden lg:flex space-x-1">
           {navItems.map((item, index) => (
             <li key={index}>
-              {item.href.startsWith('#') ? (
-                <a
-                  href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
-                  className="px-3 py-2 text-white text-sm font-medium relative group cursor-pointer"
-                >
-                  <span>{item.label}</span>
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all duration-300 group-hover:w-full"></span>
-                </a>
-              ) : (
-                <Link 
-                  to={item.href}
-                  className="px-3 py-2 text-white text-sm font-medium relative group"
-                >
-                  <span>{item.label}</span>
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              )}
+              <a
+                href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
+                className="px-3 py-2 text-white text-sm font-medium relative group cursor-pointer"
+              >
+                <span>{item.label}</span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all duration-300 group-hover:w-full"></span>
+              </a>
             </li>
           ))}
-          <li>
-            <button className="ml-4 px-4 py-1.5 bg-teal-500 text-white rounded-md text-sm font-medium transform hover:scale-105 transition-transform duration-300 hover:bg-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-300 shadow-lg shadow-teal-500/20">
-              Sign In
-            </button>
-          </li>
         </ul>
       </div>
 
       {/* Mobile Navigation */}
-      <div className={`lg:hidden ${mobileMenuOpen ? 'block' : 'hidden'}`}>
-        <div className="px-2 pt-2 pb-3 space-y-1 bg-gray-900 shadow-lg">
-          {navItems.map((item, index) => (
-            item.href.startsWith('#') ? (
+      {mobileMenuOpen && (
+        <div className="lg:hidden">
+          <div className="px-2 pt-2 pb-3 space-y-1 bg-gray-900 shadow-lg">
+            {navItems.map((item, index) => (
               <a
                 key={index}
                 href={item.href}
@@ -128,22 +106,10 @@ const Navbar = () => {
               >
                 {item.label}
               </a>
-            ) : (
-              <Link 
-                key={index}
-                to={item.href}
-                className="block px-3 py-2 text-white text-base font-medium hover:bg-gray-800 rounded-md"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {item.label}
-              </Link>
-            )
-          ))}
-          <button className="w-full mt-3 px-3 py-2 bg-teal-500 text-white rounded-md text-base font-medium hover:bg-teal-400 focus:outline-none">
-            Sign In
-          </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 };

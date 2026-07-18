@@ -23,7 +23,7 @@ import ContactUs from "../components/ContactUs";
 
 const Homepage = () => {
   return (
-    <div className="min-h-screen">
+    <div id="top" className="min-h-screen">
       {/* Social Media Bar */}
 
       {/* Navbar */}
