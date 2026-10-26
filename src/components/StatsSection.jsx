@@ -273,7 +273,7 @@ const StatsSection = () => {
                           <h4 className="font-bold text-white group-hover:text-teal-300 transition-colors">{resource.title}</h4>
                           <p className="text-gray-400 mt-1 text-sm">{resource.description}</p>
                           <div className="mt-3">
-                            <a href="#" className="text-teal-400 text-sm hover:text-teal-300 inline-flex items-center group">
+                            <a href="#resources" onClick={onClose} className="text-teal-400 text-sm hover:text-teal-300 inline-flex items-center group">
                               Access resource
                               <svg className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -309,22 +309,51 @@ const StatsSection = () => {
   };
 
   // Enhanced Security Updates
-  const SecurityUpdateCard = ({ icon, color, title, description, actionLabel, actionIcon, delay = 0 }) => {
+  const SecurityUpdateCard = ({
+    icon,
+    color,
+    title,
+    description,
+    actionLabel,
+    actionIcon,
+    href = "#latest-updates",
+    delay = 0,
+  }) => {
+    const schemes = {
+      teal: {
+        card: "hover:shadow-teal-500/10 hover:border-teal-500/30",
+        icon: "text-teal-400 bg-teal-400/20",
+        link: "text-teal-400 hover:text-teal-300",
+      },
+      red: {
+        card: "hover:shadow-red-500/10 hover:border-red-500/30",
+        icon: "text-red-400 bg-red-400/20",
+        link: "text-red-400 hover:text-red-300",
+      },
+      blue: {
+        card: "hover:shadow-blue-500/10 hover:border-blue-500/30",
+        icon: "text-blue-400 bg-blue-400/20",
+        link: "text-blue-400 hover:text-blue-300",
+      },
+    };
+    const scheme = schemes[color] || schemes.teal;
+
     return (
       <motion.li
-        className={`flex p-3 bg-gray-700/40 rounded-lg hover:bg-gray-700/60 transition-all duration-300 transform hover:-translate-x-1 hover:translate-y-1 hover:shadow-lg hover:shadow-${color}-500/10 border border-transparent hover:border-${color}-500/30`}
+        className={`flex rounded-lg border border-transparent bg-gray-700/40 p-3 transition-all duration-300 hover:-translate-x-1 hover:translate-y-1 hover:bg-gray-700/60 hover:shadow-lg ${scheme.card}`}
         initial={{ x: -20, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ delay }}
       >
-        <span className={`text-${color}-400 mr-4 bg-${color}-400/20 p-3 rounded-lg`}>
-          {icon}
-        </span>
+        <span className={`mr-4 rounded-lg p-3 ${scheme.icon}`}>{icon}</span>
         <div>
           <h4 className="font-bold text-white">{title}</h4>
-          <p className="text-gray-400 mt-1">{description}</p>
+          <p className="mt-1 text-gray-400">{description}</p>
           <div className="mt-2">
-            <a href="#" className={`text-${color}-400 text-sm hover:text-${color}-300 inline-flex items-center group`}>
+            <a
+              href={href}
+              className={`inline-flex items-center text-sm group ${scheme.link}`}
+            >
               {actionLabel}
               {actionIcon}
             </a>
@@ -359,7 +388,7 @@ const StatsSection = () => {
                 left: `${Math.random() * 100}%`,
                 width: `${Math.random() * 6 + 2}px`,
                 height: `${Math.random() * 6 + 2}px`,
-                animation: `pulse ${Math.random() * 5 + 2}s infinite alternate`,
+                animation: `pulse-glow ${Math.random() * 5 + 2}s infinite alternate`,
                 animationDelay: `${Math.random() * 2}s`
               }}
             />
@@ -386,15 +415,17 @@ const StatsSection = () => {
               </motion.div>
 
               <motion.div variants={itemVariants} className="flex flex-wrap gap-4">
-                <button className="relative overflow-hidden px-6 py-3 bg-red-500 text-white rounded-lg font-medium group">
+                <a
+                  href="#report-incident"
+                  className="group relative overflow-hidden rounded-lg bg-red-500 px-6 py-3 font-medium text-white transition-colors hover:bg-red-600"
+                >
                   <span className="relative z-10 flex items-center">
                     <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                     Report an Incident
                   </span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-500 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
-                </button>
+                </a>
 
                 <button
                   className="relative overflow-hidden px-6 py-3 bg-transparent border-2 border-teal-400 text-teal-400 rounded-lg font-medium group"
@@ -435,6 +466,7 @@ const StatsSection = () => {
                     </svg>
                   }
                   color="teal"
+                  href="#cyber-laws"
                   title="New Cyber Law Amendment"
                   description="Updated regulations for digital transactions"
                   actionLabel="Learn more"
@@ -453,6 +485,7 @@ const StatsSection = () => {
                     </svg>
                   }
                   color="red"
+                  href="#ai-solutions"
                   title="AI Security Integration"
                   description="Enhanced threat detection systems"
                   actionLabel="Learn more"
@@ -471,6 +504,7 @@ const StatsSection = () => {
                   </svg>
                 }
                 color="blue"
+                href="#resources"
                 title="Latest Security Report"
                 description="Insights from the first quarter of 2025"
                 actionLabel="Download report"
@@ -486,13 +520,6 @@ const StatsSection = () => {
         </div>
       </div>
 
-      {/* Custom animation */}
-      <style jsx>{`
-        @keyframes pulse {
-          0% { transform: scale(0.8); opacity: 0.3; }
-          100% { transform: scale(1.2); opacity: 0.1; }
-        }
-      `}</style>
       <ResourcesModal isOpen={resourcesModalOpen} onClose={() => setResourcesModalOpen(false)} />
     </motion.section>
     </>

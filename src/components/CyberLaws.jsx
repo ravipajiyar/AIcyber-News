@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
@@ -192,7 +192,7 @@ const CyberLaws = () => {
                   
                   <div className="pt-4 border-t border-gray-700/50">
                     <a 
-                      href="#" 
+                      href="#resources" 
                       className={`inline-flex items-center ${colorScheme.text} hover:font-medium transition-all duration-300 group-hover:translate-x-1`}
                     >
                       Learn More
@@ -208,31 +208,16 @@ const CyberLaws = () => {
         </div>
 
         <motion.div variants={itemVariants} className="text-center mt-12">
-          <button className="relative inline-flex items-center px-6 py-3 overflow-hidden text-white bg-teal-600 rounded-lg group focus:ring-2 focus:ring-teal-300 focus:ring-offset-2 focus:ring-offset-gray-900 focus:outline-none shadow-lg shadow-teal-500/30">
-            <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-500 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
-            <span className="relative">View All Cyber Laws</span>
-            <svg className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <a href="#faq" className="group relative inline-flex items-center overflow-hidden rounded-lg bg-teal-600 px-6 py-3 text-white shadow-lg shadow-teal-500/30 transition-colors hover:bg-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-300 focus:ring-offset-2 focus:ring-offset-gray-900">
+            <span className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-500 ease group-hover:-translate-x-40"></span>
+            <span className="relative">Explore Cyber Law FAQ</span>
+            <svg className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
-          </button>
+          </a>
         </motion.div>
       </div>
       
-      {/* Custom animation */}
-      <style jsx>{`
-        @keyframes float {
-          0% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-15px) rotate(180deg); }
-          100% { transform: translateY(0) rotate(360deg); }
-        }
-        
-        .bg-grid-pattern {
-          background-image: 
-            linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-          background-size: 20px 20px;
-        }
-      `}</style>
     </motion.section>
   );
 };

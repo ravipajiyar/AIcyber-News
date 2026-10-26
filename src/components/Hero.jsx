@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Hero = () => {
@@ -6,6 +6,7 @@ const Hero = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [showIncidentModal, setShowIncidentModal] = useState(false);
   const [showLearnMoreModal, setShowLearnMoreModal] = useState(false);
+  const [incidentSubmitted, setIncidentSubmitted] = useState(false);
   
   // Animation variants
   const containerVariants = {
@@ -81,8 +82,7 @@ const Hero = () => {
     e.preventDefault();
     // Here you would typically send the form data to your backend
     console.log("Incident form submitted:", incidentForm);
-    alert("Thank you for reporting this incident. Our team will contact you shortly.");
-    setShowIncidentModal(false);
+    setIncidentSubmitted(true);
     // Reset form
     setIncidentForm({
       name: '',
@@ -169,7 +169,10 @@ const Hero = () => {
           
           <motion.div variants={itemVariants} className="flex flex-wrap justify-center gap-4 mb-16">
             <button 
-              onClick={() => setShowIncidentModal(true)}
+              onClick={() => {
+                setShowIncidentModal(true);
+                setIncidentSubmitted(false);
+              }}
               className="px-8 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg font-medium hover:shadow-lg hover:shadow-red-500/30 transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-red-400 flex items-center"
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -238,7 +241,13 @@ const Hero = () => {
       {/* Report Incident Modal */}
       <AnimatePresence>
         {showIncidentModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black bg-opacity-70 backdrop-blur-sm">
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm"
+            onClick={() => {
+              setShowIncidentModal(false);
+              setIncidentSubmitted(false);
+            }}
+          >
             <motion.div 
               className="w-full max-w-4xl bg-gray-800 rounded-2xl shadow-2xl shadow-teal-500/10 border border-gray-700 overflow-hidden relative"
               variants={modalVariants}
@@ -278,6 +287,29 @@ const Hero = () => {
                   </div>
                 </div>
                 
+                {incidentSubmitted ? (
+                  <div className="py-10 text-center">
+                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-500/20">
+                      <svg className="h-8 w-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <h4 className="mb-2 text-xl font-bold text-white">Report received</h4>
+                    <p className="mx-auto mb-6 max-w-md text-gray-400">
+                      Thank you for reporting this incident. Our team will review it and contact you within 24 hours.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowIncidentModal(false);
+                        setIncidentSubmitted(false);
+                      }}
+                      className="rounded-lg bg-teal-600 px-6 py-2 text-white transition-colors hover:bg-teal-500"
+                    >
+                      Close
+                    </button>
+                  </div>
+                ) : (
                 <form onSubmit={handleIncidentSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Contact Information */}
@@ -424,6 +456,7 @@ const Hero = () => {
                     </button>
                   </div>
                 </form>
+                )}
               </div>
             </motion.div>
           </div>
@@ -611,7 +644,7 @@ const Hero = () => {
                     <button 
                       onClick={() => {
                         setShowLearnMoreModal(false);
-                        setShowIncidentModal(true);
+                        setShowIncidentModal(true); setIncidentSubmitted(false);
                       }}
                       className="px-6 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg font-medium hover:shadow-lg hover:shadow-red-500/30 transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-red-400"
                     >
@@ -633,22 +666,6 @@ const Hero = () => {
           </div>
         )}
       </AnimatePresence>
-      
-      {/* Custom CSS for animations */}
-      <style jsx>{`
-        @keyframes float {
-          0% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(180deg); }
-          100% { transform: translateY(0) rotate(360deg); }
-        }
-        
-        .bg-grid-pattern {
-          background-image: 
-            linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-          background-size: 20px 20px;
-        }
-      `}</style>
     </section>
   );
 };

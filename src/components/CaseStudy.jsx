@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from "react";
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
@@ -123,7 +123,7 @@ const CaseStudy = () => {
         buttonBg: 'bg-blue-600',
         buttonHover: 'hover:bg-blue-500',
         shadow: 'shadow-blue-500/30',
-        glow: 'blue-500'
+        glow: '#3B82F6'
       },
       purple: {
         bg: 'bg-purple-500/10',
@@ -135,7 +135,7 @@ const CaseStudy = () => {
         buttonBg: 'bg-purple-600',
         buttonHover: 'hover:bg-purple-500',
         shadow: 'shadow-purple-500/30',
-        glow: 'purple-500'
+        glow: '#8B5CF6'
       },
       teal: {
         bg: 'bg-teal-500/10',
@@ -147,7 +147,7 @@ const CaseStudy = () => {
         buttonBg: 'bg-teal-600',
         buttonHover: 'hover:bg-teal-500',
         shadow: 'shadow-teal-500/30',
-        glow: 'teal-500'
+        glow: '#14B8A6'
       },
       amber: {
         bg: 'bg-amber-500/10',
@@ -159,7 +159,7 @@ const CaseStudy = () => {
         buttonBg: 'bg-amber-600',
         buttonHover: 'hover:bg-amber-500',
         shadow: 'shadow-amber-500/30',
-        glow: 'amber-500'
+        glow: '#F59E0B'
       },
       indigo: {
         bg: 'bg-indigo-500/10',
@@ -171,7 +171,7 @@ const CaseStudy = () => {
         buttonBg: 'bg-indigo-600',
         buttonHover: 'hover:bg-indigo-500',
         shadow: 'shadow-indigo-500/30',
-        glow: 'indigo-500'
+        glow: '#6366F1'
       }
     };
     return colors[color] || colors.blue;
@@ -235,7 +235,7 @@ const CaseStudy = () => {
                   {/* Hover glow effect */}
                   <div 
                     className={`absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500 blur-xl rounded-xl`}
-                    style={{background: `radial-gradient(circle, #${colorScheme.glow.split('-')[1]} 0%, transparent 70%)`}}
+                    style={{background: `radial-gradient(circle, ${colorScheme.glow} 0%, transparent 70%)`}}
                   ></div>
                   
                   {/* Border gradient */}
@@ -283,7 +283,7 @@ const CaseStudy = () => {
                     
                     {/* Action button */}
                     <a 
-                      href="#" 
+                      href="#blog" 
                       className={`inline-flex items-center justify-center px-4 py-2 rounded-lg ${colorScheme.buttonBg} ${colorScheme.buttonHover} text-white transition-all duration-300 shadow-lg ${colorScheme.shadow} transform group-hover:translate-y-0.5`}
                     >
                       Read Full Analysis
@@ -319,7 +319,7 @@ const CaseStudy = () => {
                   {/* Hover glow effect */}
                   <div 
                     className={`absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500 blur-xl rounded-xl`}
-                    style={{background: `radial-gradient(circle, #${colorScheme.glow.split('-')[1]} 0%, transparent 70%)`}}
+                    style={{background: `radial-gradient(circle, ${colorScheme.glow} 0%, transparent 70%)`}}
                   ></div>
                   
                   <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 border border-gray-700/30 hover:border-gray-700/50 transition-all duration-300 group-hover:translate-y-1 h-full">
@@ -386,7 +386,7 @@ const CaseStudy = () => {
                         {/* Glow effect */}
                         <div 
                           className={`absolute -top-6 -right-6 w-24 h-24 rounded-full blur-xl opacity-20 group-hover:opacity-30 transition-opacity duration-300`}
-                          style={{background: `radial-gradient(circle, #${colorScheme.glow.split('-')[1]} 0%, transparent 70%)`}}
+                          style={{background: `radial-gradient(circle, ${colorScheme.glow} 0%, transparent 70%)`}}
                         ></div>
                         
                         {/* Border gradient */}
@@ -443,34 +443,6 @@ const CaseStudy = () => {
         </motion.div>
       </div>
 
-      {/* Custom animations and styles */}
-      <style jsx>{`
-        @keyframes float {
-          0% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-15px) rotate(180deg); }
-          100% { transform: translateY(0) rotate(360deg); }
-        }
-        
-        .bg-grid-pattern {
-          background-image: 
-            linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-          background-size: 20px 20px;
-        }
-        
-        .timeline:after {
-          content: '';
-          position: absolute;
-          width: 20px;
-          height: 20px;
-          background: radial-gradient(circle, rgba(79, 70, 229, 0.5) 0%, transparent 70%);
-          border-radius: 50%;
-          bottom: 0;
-          left: 50%;
-          transform: translateX(-50%);
-          filter: blur(4px);
-        }
-      `}</style>
     </motion.section>
   );
 };

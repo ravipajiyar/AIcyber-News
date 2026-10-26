@@ -1,226 +1,274 @@
-// WhoWeAre.js
-import React, { useState, useEffect } from 'react';
-import { Globe, Users, BookOpen } from 'lucide-react';
-import Navbar from '../components/Navbar';
+import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  BookOpen,
+  Bot,
+  GraduationCap,
+  Scale,
+  ShieldCheck,
+  Users,
+} from "lucide-react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
-import Footer from '../components/Footer';
-
-const teamMembers = [
+const pillars = [
   {
-    name: 'Prof. Dr. Hari Prasad Neupane',
-    designation: 'Patron',
-    profilePic: '/hari.jpeg',
-    statement: '"Guiding the club with wisdom and vision."',
-    socialLinks: { linkedin: 'https://linkedin.com/in/patron' },
+    icon: Scale,
+    title: "Cyber Law Guidance",
+    description:
+      "Clear explanations of Nepal's Electronic Transactions Act, data protection duties and the legal steps that follow a cyber incident.",
+    color: "text-purple-300",
+    bg: "bg-purple-500/10",
+    border: "border-purple-500/20",
   },
   {
-    name: 'Associate Prof. Dr Khagendra Acharya',
-    designation: 'Advisor',
-    profilePic: '/khagendra.jpeg',
-    statement: '"Providing invaluable advice and support."',
-    socialLinks: { linkedin: 'https://linkedin.com/in/advisor' },
+    icon: ShieldCheck,
+    title: "Practical Security",
+    description:
+      "Hands-on advice for individuals, businesses and institutions on prevention, detection and response to digital threats.",
+    color: "text-teal-300",
+    bg: "bg-teal-500/10",
+    border: "border-teal-500/20",
   },
   {
-    name: 'Dibyansh Sah',
-    designation: 'President',
-    profilePic: '/dib.jpeg',
-    statement: '"Leading with dedication and purpose."',
-    socialLinks: { linkedin: 'https://www.linkedin.com/in/dibyanshsah/' },
+    icon: Bot,
+    title: "AI & Emerging Tech",
+    description:
+      "Research and guidance on how artificial intelligence changes both the attack surface and the legal response.",
+    color: "text-blue-300",
+    bg: "bg-blue-500/10",
+    border: "border-blue-500/20",
   },
   {
-    name: 'Anubhav Ghimire',
-    designation: 'Alumni',
-    profilePic: '/anubhav.jpeg',
-    statement: '"Contributing expertise and guidance."',
-    socialLinks: { linkedin: 'https://linkedin.com/in/alumni1' },
-  },
-  {
-    name: 'Prashant Kandel',
-    designation: 'Alumni',
-    profilePic: '/prashant.jpeg',
-    statement: '"Supporting club growth and development."',
-    socialLinks: { linkedin: 'https://linkedin.com/in/alumni2' },
-  },
-  {
-    name: 'Puspa Das',
-    designation: 'Alumni',
-    profilePic: '/puspa.jpeg',
-    statement: '"Mentoring and sharing experiences."',
-    socialLinks: { linkedin: 'https://www.linkedin.com/in/puspa-das-253b8a1b9' },
-  },
-  {
-    name: 'Shashwat Mani Risal',
-    designation: 'Vice President',
-    profilePic: '/shaswat.jpeg',
-    statement: '"Coordinating and supporting club initiatives."',
-    socialLinks: { linkedin: 'https://linkedin.com/in/vp' },
-  },
-  {
-    name: 'Ravi Kumar Pajiyar',
-    designation: 'Developer Head',
-    profilePic: '/ravipp.jpg',
-    statement: '"Leading technical development and innovation."',
-    socialLinks: { linkedin: 'https://www.linkedin.com/in/ravi-pajiyar-a4a5512ba/' },
-  },
-  {
-    name: 'Sarita Sapkota',
-    designation: 'Media Head',
-    profilePic: '/saritanew.jpg',
-    statement: '"Managing media outreach and communications."',
-    socialLinks: { linkedin: 'https://www.linkedin.com/in/sarita-sapkota-80683b332/' },
+    icon: GraduationCap,
+    title: "Awareness & Training",
+    description:
+      "Workshops, resources and public education that help people recognise scams and respond responsibly.",
+    color: "text-amber-300",
+    bg: "bg-amber-500/10",
+    border: "border-amber-500/20",
   },
 ];
 
-const WhoWeAre = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+const values = [
+  {
+    icon: Users,
+    title: "People first",
+    text: "Legal and technical advice is written for the person affected, not for other experts.",
+  },
+  {
+    icon: BookOpen,
+    title: "Evidence based",
+    text: "We cite the law, the regulation and the verified incident data behind every recommendation.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Privacy respected",
+    text: "Incident details are handled with care and shared only with the people who can help.",
+  },
+];
 
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % Math.ceil(teamMembers.length / 3));
-  };
-
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? Math.ceil(teamMembers.length / 3) - 1 : prevIndex - 1
-    );
-  };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      handleNext();
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
+const About = () => {
   return (
-    <div>
-      
+    <div className="min-h-screen bg-gray-950 text-gray-200">
       <Navbar />
-      <div className="bg-gray-100">
-        <div className="relative">
-          <img
-            src="/voluntereer.jpeg"
-            alt="KUYRCC volunteers in action"
-            className="w-full h-[500px] object-cover"
-          />
-          <div className="absolute inset-0 bg-navy-900 bg-opacity-60">
-            <div className="container mx-auto px-6 py-16">
-              <h1 className="text-4xl font-bold text-white">About KUYRCC</h1>
-            </div>
-          </div>
-        </div>
 
-        <section className="container mx-auto px-6 py-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">Who are we and what do we do?</h2>
-          <p className="text-gray-700 text-lg mb-6">
-            KUYRCC (Kathmandu University Youth Red Cross Circle) is a student-led initiative that
-            acts before, during, and after emergencies to meet the needs and improve the lives of
-            vulnerable people in our community.
-          </p>
-          <p className="text-gray-700 text-lg mb-6">
-            We are a humanitarian organization that unites students and faculty members of Kathmandu
-            University, fostering leadership and community engagement through various social and
-            humanitarian activities.
-          </p>
-        </section>
+      <main id="top" className="overflow-hidden">
+        <section className="relative isolate px-4 pb-20 pt-36 sm:pt-40">
+          <div className="absolute inset-0 -z-10 bg-grid-pattern opacity-10" />
+          <div className="absolute left-1/2 top-0 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-teal-500/20 blur-3xl" />
+          <div className="absolute right-0 top-40 -z-10 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl" />
 
-        <section className="bg-white py-12">
-          <div className="container mx-auto px-6">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
-            <p className="text-gray-700 text-lg mb-6">
-              The mission of KUYRCC is to inspire, encourage, facilitate and promote humanitarian
-              activities within Kathmandu University and surrounding communities. We do so with a
-              view to preventing and alleviating human suffering, thereby contributing to the
-              maintenance and promotion of human dignity and peace.
-            </p>
-          </div>
-        </section>
-
-        <section className="container mx-auto px-6 py-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-10">Key Figures</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-              <div className="flex justify-center mb-4">
-                <Users className="w-12 h-12 text-red-600" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Active Members</h3>
-              <p className="text-gray-600">Over 200 dedicated volunteers</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-              <div className="flex justify-center mb-4">
-                <Globe className="w-12 h-12 text-red-600" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Community Impact</h3>
-              <p className="text-gray-600">Serving local communities since establishment</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-              <div className="flex justify-center mb-4">
-                <BookOpen className="w-12 h-12 text-red-600" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Projects</h3>
-              <p className="text-gray-600">Multiple ongoing humanitarian initiatives</p>
-            </div>
+          <div className="container mx-auto max-w-4xl text-center">
+            <motion.span
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 rounded-full border border-teal-400/30 bg-teal-400/10 px-4 py-1.5 text-sm font-medium text-teal-300"
+            >
+              <ShieldCheck className="h-4 w-4" />
+              About AI Cyber Law
+            </motion.span>
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="mt-6 text-4xl font-bold text-white sm:text-5xl md:text-6xl"
+            >
+              Making Nepal&apos;s digital world{" "}
+              <span className="bg-gradient-to-r from-teal-300 via-cyan-300 to-blue-400 bg-clip-text text-transparent">
+                safer and clearer
+              </span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-gray-400"
+            >
+              We connect cybersecurity practice with legal understanding, so
+              people and organisations in Nepal know what happened, what the law
+              says, and what to do next.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
+            >
+              <a
+                href="/#contact"
+                className="inline-flex items-center gap-2 rounded-lg bg-teal-500 px-6 py-3 font-semibold text-gray-950 transition-colors hover:bg-teal-400"
+              >
+                Talk to our team
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                href="/#report-incident"
+                className="inline-flex items-center gap-2 rounded-lg border border-gray-700 px-6 py-3 font-semibold text-gray-200 transition-colors hover:border-teal-400/50 hover:text-teal-300"
+              >
+                Report an incident
+              </a>
+            </motion.div>
           </div>
         </section>
 
-        <section className="bg-white py-16">
-          <div className="container mx-auto px-6">
-             <h2 className="text-3xl font-bold text-gray-900 mb-10">Meet Our Key Team Members</h2>
-            <div className="relative overflow-hidden">
+        <section className="border-y border-gray-800/70 bg-gray-900/40 px-4 py-16">
+          <div className="container mx-auto grid max-w-5xl gap-10 md:grid-cols-2 md:items-center">
+            <div>
+              <h2 className="text-3xl font-bold text-white sm:text-4xl">
+                Why we exist
+              </h2>
+              <div className="mt-5 space-y-4 text-gray-400">
+                <p>
+                  Nepal&apos;s digital economy is growing faster than public
+                  understanding of the risks. A single phishing message can cost
+                  a family its savings, and many victims do not know which law
+                  applies or where to report.
+                </p>
+                <p>
+                  AI Cyber Law was built to close that gap. We translate
+                  technical incidents into plain language, explain the legal
+                  options under Nepali law, and point people to the right
+                  authority without judgement.
+                </p>
+                <p>
+                  Our work is independent, educational and focused on practical
+                  outcomes: fewer successful attacks, faster reporting and
+                  better evidence.
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { value: "50+", label: "Incidents guided" },
+                { value: "24h", label: "Typical response" },
+                { value: "10+", label: "Partner resources" },
+                { value: "100%", label: "Free public guidance" },
+              ].map((stat) => (
                 <div
-                    className="flex transition-transform ease-in-out duration-500"
-                    style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-                    >
-                        {teamMembers.map((member, index) => (
-                        <div
-                            key={index}
-                            className="w-full md:w-1/3 flex-shrink-0 px-4"
-                        >
-                            <div className="bg-red-50 p-6 rounded-lg shadow-lg text-center">
-                            <img
-                                src={member.profilePic}
-                                alt={member.name}
-                                className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-red-600"
-                            />
-                            <h3 className="text-lg font-bold text-red-800">
-                                {member.name}
-                            </h3>
-                            <p className="text-sm text-red-600 font-semibold mb-2">
-                                {member.designation}
-                            </p>
-                            <p className="text-sm text-gray-500 italic mb-4">
-                                {member.statement}
-                            </p>
-                            <a
-                                href={member.socialLinks.linkedin}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-                            >
-                                LinkedIn Profile
-                            </a>
-                            </div>
-                        </div>
-                        ))}
-                    </div>
-                    <button
-                    onClick={handlePrev}
-                    className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-red-500 text-white p-3 rounded-full hover:bg-red-700"
-                    >
-                    ←
-                    </button>
-                    <button
-                    onClick={handleNext}
-                    className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-red-500 text-white p-3 rounded-full hover:bg-red-700"
-                    >
-                    →
-                    </button>
+                  key={stat.label}
+                  className="rounded-xl border border-gray-800 bg-gray-900/70 p-6 text-center"
+                >
+                  <div className="bg-gradient-to-r from-teal-300 to-blue-400 bg-clip-text text-3xl font-bold text-transparent">
+                    {stat.value}
+                  </div>
+                  <div className="mt-1 text-sm text-gray-400">{stat.label}</div>
                 </div>
+              ))}
+            </div>
           </div>
         </section>
-      </div>
+
+        <section className="px-4 py-20">
+          <div className="container mx-auto max-w-6xl">
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 className="text-3xl font-bold text-white sm:text-4xl">
+                What we do
+              </h2>
+              <p className="mt-4 text-gray-400">
+                Four connected areas, one goal: helping people act with
+                confidence when technology and the law meet.
+              </p>
+            </div>
+            <div className="mt-12 grid gap-6 sm:grid-cols-2">
+              {pillars.map((pillar) => (
+                <div
+                  key={pillar.title}
+                  className={`rounded-2xl border ${pillar.border} ${pillar.bg} p-6 transition-transform duration-300 hover:-translate-y-1`}
+                >
+                  <div
+                    className={`inline-flex rounded-lg bg-gray-950/40 p-3 ${pillar.color}`}
+                  >
+                    <pillar.icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="mt-4 text-xl font-semibold text-white">
+                    {pillar.title}
+                  </h3>
+                  <p className="mt-2 leading-relaxed text-gray-300">
+                    {pillar.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-gray-800/70 bg-gray-900/40 px-4 py-20">
+          <div className="container mx-auto max-w-5xl">
+            <h2 className="text-center text-3xl font-bold text-white sm:text-4xl">
+              How we work
+            </h2>
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {values.map((value) => (
+                <div
+                  key={value.title}
+                  className="rounded-xl border border-gray-800 bg-gray-950/60 p-6"
+                >
+                  <value.icon className="h-6 w-6 text-teal-300" />
+                  <h3 className="mt-4 text-lg font-semibold text-white">
+                    {value.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-400">
+                    {value.text}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 py-20">
+          <div className="container mx-auto max-w-4xl rounded-2xl border border-teal-400/20 bg-gradient-to-br from-teal-500/10 via-gray-900 to-blue-500/10 p-8 text-center sm:p-12">
+            <h2 className="text-3xl font-bold text-white">
+              Need guidance right now?
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-gray-300">
+              If you are dealing with a cyber incident, do not wait for it to
+              escalate. Preserve the evidence, report it, and ask for help.
+            </p>
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+              <a
+                href="/#report-incident"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-red-500 px-6 py-3 font-semibold text-white transition-colors hover:bg-red-600"
+              >
+                Report an incident
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                href="/#contact"
+                className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-600 px-6 py-3 font-semibold text-gray-200 transition-colors hover:border-teal-400 hover:text-teal-300"
+              >
+                Contact us
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+
       <Footer />
     </div>
   );
 };
 
-export default WhoWeAre;
+export default About;

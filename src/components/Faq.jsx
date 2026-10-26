@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
@@ -96,7 +96,7 @@ const Faq = () => {
         buttonBg: 'bg-blue-600',
         buttonHover: 'hover:bg-blue-500',
         shadow: 'shadow-blue-500/30',
-        glow: 'blue-500'
+        glow: '#3B82F6'
       },
       purple: {
         bg: 'bg-purple-500/10',
@@ -108,7 +108,7 @@ const Faq = () => {
         buttonBg: 'bg-purple-600',
         buttonHover: 'hover:bg-purple-500',
         shadow: 'shadow-purple-500/30',
-        glow: 'purple-500'
+        glow: '#8B5CF6'
       },
       teal: {
         bg: 'bg-teal-500/10',
@@ -120,7 +120,7 @@ const Faq = () => {
         buttonBg: 'bg-teal-600',
         buttonHover: 'hover:bg-teal-500',
         shadow: 'shadow-teal-500/30',
-        glow: 'teal-500'
+        glow: '#14B8A6'
       },
       amber: {
         bg: 'bg-amber-500/10',
@@ -132,7 +132,7 @@ const Faq = () => {
         buttonBg: 'bg-amber-600',
         buttonHover: 'hover:bg-amber-500',
         shadow: 'shadow-amber-500/30',
-        glow: 'amber-500'
+        glow: '#F59E0B'
       },
       indigo: {
         bg: 'bg-indigo-500/10',
@@ -144,14 +144,14 @@ const Faq = () => {
         buttonBg: 'bg-indigo-600',
         buttonHover: 'hover:bg-indigo-500',
         shadow: 'shadow-indigo-500/30',
-        glow: 'indigo-500'
+        glow: '#6366F1'
       }
     };
     return colors[color] || colors.blue;
   };
 
   // Renders the icon based on the type
-  const renderIcon = (icon, colorScheme) => {
+  const renderIcon = (icon) => {
     switch (icon) {
       case 'document':
         return (
@@ -253,7 +253,7 @@ const Faq = () => {
                 <div 
                   className={`absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500 blur-xl rounded-xl`}
                   style={{
-                    background: `radial-gradient(circle, #${colorScheme.glow.split('-')[1]} 0%, transparent 70%)`,
+                    background: `radial-gradient(circle, ${colorScheme.glow} 0%, transparent 70%)`,
                     opacity: isExpanded ? 0.3 : 0
                   }}
                 ></div>
@@ -275,7 +275,7 @@ const Faq = () => {
                 <div 
                   className={`bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-700/30 hover:border-gray-700/50 transition-all duration-300 overflow-hidden relative ${isExpanded ? 'shadow-lg' : ''}`}
                   style={{
-                    boxShadow: isExpanded ? `0 10px 25px -5px rgba(${colorScheme.glow.split('-')[1].match(/.{1,2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.2)` : 'none'
+                    boxShadow: isExpanded ? `0 10px 25px -5px ${colorScheme.glow}33` : 'none'
                   }}
                 >
                   <button 
@@ -284,9 +284,9 @@ const Faq = () => {
                   >
                     <div className="flex items-center">
                       <div className={`${colorScheme.iconBg} ${colorScheme.text} p-2 rounded-lg mr-4`}>
-                        {renderIcon(faq.icon, colorScheme)}
+                        {renderIcon(faq.icon)}
                       </div>
-                      <h3 className={`text-lg font-medium group-hover:${colorScheme.text} transition-colors duration-300 ${isExpanded ? colorScheme.text : 'text-white'}`}>
+                      <h3 className={`text-lg font-medium transition-colors duration-300 ${isExpanded ? colorScheme.text : 'text-white group-hover:text-teal-300'}`}>
                         {faq.question}
                       </h3>
                     </div>
@@ -319,7 +319,7 @@ const Faq = () => {
           <div className="inline-block relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-30 group-hover:opacity-100 transition-opacity duration-500"></div>
             <a 
-              href="#" 
+              href="#contact" 
               className="relative inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-600/90 to-purple-600/90 rounded-lg text-white font-medium shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -331,21 +331,6 @@ const Faq = () => {
         </motion.div>
       </div>
 
-      {/* Custom animations and styles */}
-      <style jsx>{`
-        @keyframes float {
-          0% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-15px) rotate(180deg); }
-          100% { transform: translateY(0) rotate(360deg); }
-        }
-        
-        .bg-grid-pattern {
-          background-image: 
-            linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-          background-size: 20px 20px;
-        }
-      `}</style>
     </motion.section>
   );
 };

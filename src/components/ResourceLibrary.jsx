@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { motion, useAnimation } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import { useEffect, useState } from "react";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 const ResourceLibrary = () => {
   const [ref, inView] = useInView({
@@ -9,6 +9,18 @@ const ResourceLibrary = () => {
   });
 
   const controls = useAnimation();
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [subscribeState, setSubscribeState] = useState("idle");
+
+  const handleSubscribe = (event) => {
+    event.preventDefault();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newsletterEmail)) {
+      setSubscribeState("error");
+      return;
+    }
+    setSubscribeState("success");
+    setNewsletterEmail("");
+  };
 
   useEffect(() => {
     if (inView) {
@@ -42,7 +54,8 @@ const ResourceLibrary = () => {
       description: 'Official cybersecurity guidelines, policies, and best practices documentation.',
       icon: 'document',
       color: 'blue',
-      link: '#'
+      link: 'https://ncsc.gov.np/',
+      external: true
     },
     {
       id: 2,
@@ -50,7 +63,7 @@ const ResourceLibrary = () => {
       description: 'Educational videos on cybersecurity awareness and best practices.',
       icon: 'video',
       color: 'purple',
-      link: '#'
+      link: '#experts'
     },
     {
       id: 3,
@@ -58,7 +71,7 @@ const ResourceLibrary = () => {
       description: 'Download security assessment tools and policy templates.',
       icon: 'tool',
       color: 'teal',
-      link: '#'
+      link: '#report-incident'
     }
   ];
 
@@ -182,6 +195,8 @@ const ResourceLibrary = () => {
                       </div>
                       <a 
                         href={resource.link} 
+                        target={resource.external ? "_blank" : undefined}
+                        rel={resource.external ? "noopener noreferrer" : undefined}
                         className={`inline-flex items-center px-4 py-2 rounded-lg border ${colorScheme.border} ${colorScheme.bg} ${colorScheme.text} hover:bg-opacity-30 transition-all duration-300 group-hover:translate-x-1`}
                       >
                         Access Resource
@@ -205,16 +220,28 @@ const ResourceLibrary = () => {
                 <h3 className="text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-teal-300">Stay Updated</h3>
                 <p className="text-gray-400 mb-6">Subscribe to our newsletter for the latest cybersecurity updates, resources, and best practices.</p>
                 
-                <div className="relative">
+                <form onSubmit={handleSubscribe} className="relative" noValidate>
                   <input 
                     type="email" 
+                    value={newsletterEmail}
+                    onChange={(event) => {
+                      setNewsletterEmail(event.target.value);
+                      setSubscribeState("idle");
+                    }}
                     placeholder="Enter your email" 
-                    className="w-full px-4 py-3 bg-gray-700/60 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent" 
+                    aria-label="Email address"
+                    className="w-full rounded-lg border border-gray-600 bg-gray-700/60 px-4 py-3 pr-28 text-white placeholder-gray-500 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500/50" 
                   />
-                  <button className="absolute right-1 top-1 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-all duration-300 shadow-lg shadow-blue-600/30">
+                  <button type="submit" className="absolute right-1 top-1 rounded-lg bg-blue-600 px-4 py-2 text-white shadow-lg shadow-blue-600/30 transition-all duration-300 hover:bg-blue-500">
                     Subscribe
                   </button>
-                </div>
+                </form>
+                {subscribeState === "success" && (
+                  <p className="mt-2 text-sm text-teal-300">Thanks for subscribing! Check your inbox soon.</p>
+                )}
+                {subscribeState === "error" && (
+                  <p className="mt-2 text-sm text-red-300">Please enter a valid email address.</p>
+                )}
               </div>
               
               <div className="relative">
@@ -256,21 +283,6 @@ const ResourceLibrary = () => {
         </motion.div>
       </div>
 
-      {/* Custom animation */}
-      <style jsx>{`
-        @keyframes float {
-          0% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-15px) rotate(180deg); }
-          100% { transform: translateY(0) rotate(360deg); }
-        }
-        
-        .bg-grid-pattern {
-          background-image: 
-            linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-          background-size: a20px 20px;
-        }
-      `}</style>
     </motion.section>
   );
 };

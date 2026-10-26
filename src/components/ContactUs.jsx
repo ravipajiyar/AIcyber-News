@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { motion, useAnimation } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import { useEffect, useState } from "react";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 const ContactUs = () => {
   const [ref, inView] = useInView({
@@ -9,12 +9,47 @@ const ContactUs = () => {
   });
 
   const controls = useAnimation();
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+    consent: false,
+  });
+  const [formStatus, setFormStatus] = useState("idle");
 
   useEffect(() => {
     if (inView) {
-      controls.start('visible');
+      controls.start("visible");
     }
   }, [controls, inView]);
+
+  const handleChange = (event) => {
+    const { name, value, checked, type } = event.target;
+    setForm((previous) => ({
+      ...previous,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+    setFormStatus("idle");
+  };
+
+  const handleContactSubmit = (event) => {
+    event.preventDefault();
+    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+      setFormStatus("error");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      setFormStatus("error");
+      return;
+    }
+    if (!form.consent) {
+      setFormStatus("consent");
+      return;
+    }
+    setFormStatus("success");
+    setForm({ name: "", email: "", subject: "", message: "", consent: false });
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -131,13 +166,17 @@ const ContactUs = () => {
                 </div>
               </div>
               
-              <form>
+              <form onSubmit={handleContactSubmit} noValidate>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div className="relative">
                     <label htmlFor="fullName" className="block text-gray-400 text-sm mb-2">Full Name</label>
                     <input 
                       type="text" 
                       id="fullName" 
+                      name="name"
+                      required
+                      value={form.name}
+                      onChange={handleChange}
                       className={`w-full bg-gray-900/50 border border-gray-700 ${colorScheme.focus} text-white rounded-lg py-3 px-4 outline-none transition-all duration-300`}
                       placeholder="Enter your name" 
                     />
@@ -150,6 +189,10 @@ const ContactUs = () => {
                     <input 
                       type="email" 
                       id="emailAddress" 
+                      name="email"
+                      required
+                      value={form.email}
+                      onChange={handleChange}
                       className={`w-full bg-gray-900/50 border border-gray-700 ${colorScheme.focus} text-white rounded-lg py-3 px-4 outline-none transition-all duration-300`}
                       placeholder="Enter your email" 
                     />
@@ -162,7 +205,10 @@ const ContactUs = () => {
                   <label htmlFor="subject" className="block text-gray-400 text-sm mb-2">Subject</label>
                   <div className="relative">
                     <select 
-                      id="subject" 
+                      id="subject"
+                      name="subject"
+                      value={form.subject}
+                      onChange={handleChange}
                       className={`w-full bg-gray-900/50 border border-gray-700 ${colorScheme.focus} text-white rounded-lg py-3 px-4 outline-none transition-all duration-300 appearance-none`}
                     >
                       <option value="" disabled>Select a subject</option>
@@ -184,8 +230,12 @@ const ContactUs = () => {
                 <div className="mb-6 relative">
                   <label htmlFor="message" className="block text-gray-400 text-sm mb-2">Message</label>
                   <textarea 
-                    id="message" 
-                    rows="5" 
+                    id="message"
+                    name="message"
+                    rows="5"
+                    required
+                    value={form.message}
+                    onChange={handleChange}
                     className={`w-full bg-gray-900/50 border border-gray-700 ${colorScheme.focus} text-white rounded-lg py-3 px-4 outline-none transition-all duration-300`}
                     placeholder="Describe your inquiry or incident in detail..."
                   ></textarea>
@@ -194,10 +244,26 @@ const ContactUs = () => {
                 </div>
                 
                 <div className="flex items-center space-x-2 mb-6">
-                  <input type="checkbox" id="consent" className={`rounded bg-gray-700 border-gray-600 text-blue-500 ${colorScheme.ring}`} />
+                  <input type="checkbox" id="consent" name="consent" checked={form.consent} onChange={handleChange} className={`rounded bg-gray-700 border-gray-600 text-blue-500 ${colorScheme.ring}`} />
                   <label htmlFor="consent" className="text-gray-400 text-sm">I consent to the processing of my data as per the privacy policy</label>
                 </div>
                 
+                {formStatus === "success" && (
+                  <p className="mb-4 rounded-lg border border-teal-500/30 bg-teal-500/10 px-4 py-3 text-sm text-teal-300">
+                    Thank you! Your message has been recorded. Our team will get back to you within 24 hours.
+                  </p>
+                )}
+                {formStatus === "error" && (
+                  <p className="mb-4 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+                    Please fill in your name, a valid email address and a message.
+                  </p>
+                )}
+                {formStatus === "consent" && (
+                  <p className="mb-4 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-300">
+                    Please accept the privacy consent before sending your message.
+                  </p>
+                )}
+
                 <button 
                   type="submit" 
                   className={`${colorScheme.buttonBg} ${colorScheme.buttonHover} text-white py-3 px-6 rounded-lg transition-all duration-300 shadow-lg ${colorScheme.shadow} transform hover:-translate-y-1 flex items-center justify-center space-x-2 w-full md:w-auto`}
@@ -296,7 +362,9 @@ const ContactUs = () => {
                     </div>
                     
                     <a 
-                      href="#"
+                      href="https://maps.google.com/?q=Kathmandu,Nepal"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-white transition-all duration-300 shadow-lg shadow-purple-500/30 transform hover:-translate-y-1 group/btn"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -315,42 +383,6 @@ const ContactUs = () => {
         </div>
       </div>
       
-      {/* Custom animation and styling */}
-      <style jsx>{`
-        @keyframes float {
-          0% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-15px) rotate(180deg); }
-          100% { transform: translateY(0) rotate(360deg); }
-        }
-        
-        .bg-grid-pattern {
-          background-image: 
-            linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-          background-size: 20px 20px;
-        }
-        
-        @keyframes border-rotate {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        
-        .rotate-border {
-          background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
-          width: 200%;
-          height: 200%;
-          animation: border-rotate 8s linear infinite;
-        }
-        
-        .cyber-pattern {
-          background-image: 
-            radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-            linear-gradient(to right, rgba(59, 130, 246, 0.05) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
-          background-size: 20px 20px, 40px 40px, 40px 40px;
-          background-position: 0 0, 10px 10px, 10px 10px;
-        }
-      `}</style>
     </motion.section>
   );
 };
